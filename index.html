@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Juego de clics</title>
+    <link rel="stylesheet" href="hojasa.css">
+  </head>
+  <body>
+    <h1>Juego de clics</h1>
+    <p>Haz clic en el botón lo más rápido que puedas.</p>
+    <button onclick="clic()">¡Haz clic aquí!</button>
+    <p id="tiempo"></p>
+    <p id="mejor-tiempo"></p>
+    
+    <script>
+      var inicio = 0;
+      var fin = 0;
+      var tiempo = 0;
+      
+      function clic() {
+        if (inicio == 0) {
+          inicio = Date.now(); // Registra el momento en que se hace clic por primera vez
+        } else {
+          fin = Date.now(); // Registra el momento en que se hace clic por segunda vez
+          tiempo = fin - inicio; // Calcula el tiempo que tarda el jugador en hacer clic en el botón
+          document.getElementById("tiempo").innerHTML = "Tu tiempo fue de " + tiempo + " milisegundos."; // Muestra el tiempo en la página
+          
+          // Comprueba si el nuevo tiempo es mejor que el tiempo anterior almacenado en localStorage
+          var mejorTiempo = localStorage.getItem("mejor-tiempo");
+          if (!mejorTiempo || tiempo < mejorTiempo) {
+            localStorage.setItem("mejor-tiempo", tiempo); // Almacena el nuevo tiempo como el mejor tiempo
+            document.getElementById("mejor-tiempo").innerHTML = "¡Nuevo mejor tiempo de " + tiempo + " milisegundos!"; // Muestra un mensaje en la página
+          }
+          
+          inicio = 0;
+          fin = 0;
+          tiempo = 0;
+        }
+      }
+      
+      // Recupera el mejor tiempo almacenado en localStorage y lo muestra en la página
+      var mejorTiempo = localStorage.getItem("mejor-tiempo");
+      if (mejorTiempo) {
+        document.getElementById("mejor-tiempo").innerHTML = "El mejor tiempo es de " + mejorTiempo + " milisegundos.";
+      }
+    </script>
+  </body>
+</html>
